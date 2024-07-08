@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>dAISy Wi-Fi Manager</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script>
+  function loadSsid() {
+	  var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		 document.getElementById("ssid").value = this.responseText;
+		}
+	  };
+	  xhttp.open("GET", "ssid", true);
+	  xhttp.send();
+  }
+  function loadPw() {
+	  var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		 document.getElementById("pass").value = this.responseText;
+		}
+	  };
+	  xhttp.open("GET", "pw", true);
+	  xhttp.send();
+  }
+  function loadIp() {
+	  var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		 document.getElementById("ip").value = this.responseText;
+		}
+	  };
+	  xhttp.open("GET", "ip", true);
+	  xhttp.send();
+  }
+  function loadGw() {
+	  var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		 document.getElementById("gateway").value = this.responseText;
+		}
+	  };
+	  xhttp.open("GET", "gw", true);
+	  xhttp.send();
+  }
+  function loadApSsid() {
+	  var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		 document.getElementById("apssid").value = this.responseText;
+		}
+	  };
+	  xhttp.open("GET", "apssid", true);
+	  xhttp.send();
+  }
+  function loadApPw() {
+	  var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		 document.getElementById("appass").value = this.responseText;
+		}
+	  };
+	  xhttp.open("GET", "appass", true);
+	  xhttp.send();
+  }
+  function loadMsg21Setting() {
+	var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		 console.log(this.responseText);
+		 document.getElementById("msg21").checked = this.responseText=="true";
+		}
+	  };
+	  xhttp.open("GET", "msg21", true);
+	  xhttp.send();
+  }
+  function loadMooredSetting() {
+	var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		console.log(this.responseText);
+		 document.getElementById("moored").checked = this.responseText=="true";
+		}
+	  };
+	  xhttp.open("GET", "moored", true);
+	  xhttp.send();
+  }
+
+  function loadNmeaUdpSetting() {
+    var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		 console.log(this.responseText);
+		 document.getElementById("nmea_udp_enabled").checked = this.responseText=="true";
+		}
+	  };
+	  xhttp.open("GET", "nmeaUdpEnabled", true);
+	  xhttp.send();
+  }
+  
+  function loadNmeaUdpPortSetting() {
+    var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		 console.log(this.responseText);
+		 document.getElementById("nmea_udp_port").value = this.responseText;
+		}
+	  };
+	  xhttp.open("GET", "nmeaUdpPort", true);
+	  xhttp.send();
+  }
+  window.onload = (event) => {
+    loadSsid();
+    loadPw();
+    loadIp();
+    loadGw();
+    loadApSsid();
+    loadApPw();
+    loadMooredSetting();
+    loadMsg21Setting();
+    loadNmeaUdpSetting();
+    loadNmeaUdpPortSetting();
+  };
+  </script>
+</head>
+<body>
+  <div class="topnav">
+  </div>
+  <div class="content">
+    <div class="card-grid">
+      <div class="card">
+        <form action="/" method="POST">
+          <p>
+			<h2>WiFi Management</h2>
+            <div class="card-title">Network to Connect To</div>
+            <div>Enter information for the WiFi network that you'd like to connect to</div>
+            <label for="ssid">SSID to Connect To</label>
+            <input type="text" id ="ssid" name="ssid"><br>
+            <label for="pass">Password</label>
+            <input type="text" id ="pass" name="pass"><br>
+            <label for="ip" hidden="hidden">Fixed IP Address (Optional)</label>
+            <input type="hidden" id ="ip" name="ip" value=""><br>
+            <label for="gateway" hidden="hidden">Gateway Address (Optional)</label>
+            <input type="hidden" id ="gateway" name="gateway" value=""><br>
+            <div class="card-title">Standalone Access Point</div>
+            <div>Enter information for the WiFi network that will be created</div>
+            <label for="apssid">Standalone Access Point SSID</label>
+            <input type="text" id ="apssid" name="apssid"><br>
+            <label for="appass">Standalone Access Point Password</label>
+            <input type="text" id ="appass" name="appass"><br>
+			<input type="hidden" name="nmea_udp_enabled" value="false">
+			<input type="checkbox" id="nmea_udp_enabled" name="nmea_udp_enabled" value="true">
+			<label for="nmea_udp_enabled"> Forward NMEA messages to UDP port </label><br><br>
+            <label for="nmea_udp_port">UDP port to broadcast NMEA messages to</label>
+            <input type="text" id ="nmea_udp_port" name="nmea_udp_port"><br>
+            <input type ="submit" value ="Save">
+          </p>
+        </form>
+      </div>
+
+	  <div class="card">
+		<h2>Utilities</h2>
+		<div class="card-title"><a href="firmware.txt">View firmware info</a></div>
+	  </div>
+    </div>
+  </div>
+</body>
+</html>
